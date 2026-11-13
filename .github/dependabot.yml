@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"        # works with pnpm-lock.yaml
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "09:00"
+      timezone: "Asia/Jerusalem"
+    open-pull-requests-limit: 5
+    groups:
+      minor-and-patch:               # one PR for all small updates instead of many
+        update-types: ["minor", "patch"]
+    commit-message:
+      prefix: "deps"
+
+  - package-ecosystem: "github-actions"   # keeps ci.yml actions up to date
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "ci"
