@@ -1,0 +1,75 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# ColmanDevClub-Server (backend: Express 5 + TS, MongoDB/Mongoose, Vercel serverless)
+language: "en-US"
+tone_instructions: "Be direct. Cite the project rule a comment is based on."
+ 
+reviews:
+  profile: "assertive"
+  request_changes_workflow: false   # only leads approve (CODEOWNERS); CodeRabbit just comments
+  high_level_summary: true
+  poem: false
+  auto_review:
+    enabled: true
+    drafts: false
+  path_filters:
+    - "!pnpm-lock.yaml"
+    - "!dist/**"
+ 
+  path_instructions:
+    - path: "**"
+      instructions: |
+        - No hardcoded secrets, API keys, tokens or passwords.
+        - Never log PII: emails, phone numbers, tokens, passwords, mentor notes. Logs carry request id, user id and status only.
+ 
+    - path: "src/config/**"
+      instructions: "Env vars are read and validated here with zod only. Every new key is added to .env.example."
+ 
+    - path: "src/**"
+      instructions: |
+        - Nothing outside src/config reads process.env directly.
+ 
+    - path: "src/modules/**"
+      instructions: |
+        - Every route: authenticate → authorize(policy) → validate(zodSchema) → controller.
+        - Permission checks only through functions in src/policies/; flag role checks written inline
+          in routes, controllers or services.
+        - Request body/query/params are validated by zod schemas from src/schemas/; controllers trust
+          validated input and don't re-validate.
+        - Controllers handle HTTP only; business rules live in *.service.ts.
+        - Errors use the unified format { error: { code, message, fields } }; 403/404 never reveal
+          whether another user's resource exists.
+        - Serializers drop fields per role: applicant phone/email only for Admins; Members never receive
+          attendance, absences, notes or member status (including their own).
+        - Every new route is registered in the OpenAPI registry in src/docs/ with its schemas and R-IDs.
+        - Queries use Mongoose with sanitizeFilter; no raw user input in query operators.
+ 
+    - path: "src/policies/**"
+      instructions: "Every policy has table-driven tests matching the permission table in REQUIREMENTS §3."
+ 
+    - path: "src/services/storage/**"
+      instructions: |
+        - Materials are uploaded as Cloudinary private assets; downloads use private_download_url with a
+          5-minute expiry. Max 10 MB per file; allow-list PDF, PNG/JPG, ZIP, PPTX/DOCX.
+        - The Cloudinary API secret never reaches the client; the browser only gets signed upload params.
+ 
+    - path: "src/models/**"
+      instructions: "Indexes match DESIGN §8. Tokens are stored only as SHA-256 hashes, passwords only as argon2id hashes."
+ 
+    - path: "tests/**"
+      instructions: "Test names reference the R-ID they cover (e.g. 'R-22.2 does not flag missing reports')."
+ 
+  pre_merge_checks:
+    custom_checks:
+      - name: "Requirement and Jira IDs"
+        mode: "error"
+        instructions: |
+          The PR description must reference at least one requirement ID in the form
+          R-<n> or R-<n>.<n> (e.g. R-20.4) or T-<n> (e.g. T-23), and a Jira key KAN-<n>.
+      - name: "API docs updated"
+        mode: "warning"
+        instructions: |
+          If the PR adds or changes a route under src/modules, it must also update the OpenAPI
+          registration in src/docs/.
+ 
+chat:
+  auto_reply: true
