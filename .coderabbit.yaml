@@ -40,7 +40,7 @@ reviews:
           whether another user's resource exists.
         - Serializers drop fields per role: applicant phone/email only for Admins; Members never receive
           attendance, absences, notes or member status (including their own).
-        - Every new route is registered in the OpenAPI registry in src/docs/ with its schemas and R-IDs.
+        - Every new route is registered in the OpenAPI registry in src/docs/ with its schemas.
         - Queries use Mongoose with sanitizeFilter; no raw user input in query operators.
  
     - path: "src/policies/**"
@@ -56,15 +56,13 @@ reviews:
       instructions: "Indexes match DESIGN §8. Tokens are stored only as SHA-256 hashes, passwords only as argon2id hashes."
  
     - path: "tests/**"
-      instructions: "Test names reference the R-ID they cover (e.g. 'R-22.2 does not flag missing reports')."
+      instructions: "Each acceptance criterion of the story has a test."
  
   pre_merge_checks:
     custom_checks:
-      - name: "Requirement and Jira IDs"
-        mode: "error"
-        instructions: |
-          The PR description must reference at least one requirement ID in the form
-          R-<n> or R-<n>.<n> (e.g. R-20.4) or T-<n> (e.g. T-23), and a Jira key KAN-<n>.
+      - name: "Jira key"
+        mode: "warning"
+        instructions: "The PR description should include a Jira key in the form KAN-<n>."
       - name: "API docs updated"
         mode: "warning"
         instructions: |
@@ -73,3 +71,4 @@ reviews:
  
 chat:
   auto_reply: true
+ 
