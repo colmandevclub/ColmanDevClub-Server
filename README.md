@@ -4,6 +4,8 @@
 
 - [CLAUDE.md](CLAUDE.md): project rules for people and AI agents
 - Specs (in the web repo): [REQUIREMENTS](https://github.com/colmandevclub/ColmanDevClub-New-Website/blob/main/docs/specs/REQUIREMENTS.md) · [DESIGN](https://github.com/colmandevclub/ColmanDevClub-New-Website/blob/main/docs/specs/DESIGN.md) · [TASKS](https://github.com/colmandevclub/ColmanDevClub-New-Website/blob/main/docs/specs/TASKS.md)
+- [Onboarding guide](https://github.com/colmandevclub/ColmanDevClub-New-Website/blob/main/docs/onboarding.html) (Hebrew; download it or open `../ColmanDevClub-New-Website/docs/onboarding.html` locally): tool access, where secrets come from, running both repos, the HTTPS local workflow
+- [Spec reconciliation 2026-11-14](https://github.com/colmandevclub/ColmanDevClub-New-Website/blob/main/docs/specs/reconciliation-2026-11-14.md) (S-0.22): Cloudinary storage (T-21), T-23 – T-25, open evidence items
 - [How we work (SDD)](https://github.com/colmandevclub/ColmanDevClub-New-Website/blob/main/docs/sdd/README.md) · [Worked example](https://github.com/colmandevclub/ColmanDevClub-New-Website/blob/main/docs/sdd/example-R-20.4.md) · [Templates](https://github.com/colmandevclub/ColmanDevClub-New-Website/tree/main/docs/sdd/templates)
 
 ## API documentation (S-0.12 / KAN-62, T-23, T-12)
