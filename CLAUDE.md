@@ -6,10 +6,10 @@
 
 The ColmanDevClub website: public club site, admissions, and a Mentor/Admin dashboard for running each academic year (curriculum, study materials, absences, member progress). Hebrew only, fully RTL. Two repos:
 
-| Repo | What | Stack |
-|---|---|---|
-| `ColmanDevClub-New-Website` | Web SPA | Vite + React 19 + TS, React Router 7, Tailwind + shadcn/ui, TanStack Query + axios, react-hook-form + zod, Motion, Vitest |
-| `ColmanDevClub-Server` | REST API (`/api/v1`) | Express 5 + TS, MongoDB/Mongoose, zod, JWT in httpOnly cookies, Cloudinary, Gmail SMTP, Vitest + supertest |
+| Repo                        | What                 | Stack                                                                                                                     |
+| --------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `ColmanDevClub-New-Website` | Web SPA              | Vite + React 19 + TS, React Router 7, Tailwind + shadcn/ui, TanStack Query + axios, react-hook-form + zod, Motion, Vitest |
+| `ColmanDevClub-Server`      | REST API (`/api/v1`) | Express 5 + TS, MongoDB/Mongoose, zod, JWT in httpOnly cookies, Cloudinary, Gmail SMTP, Vitest + supertest                |
 
 Both deploy to Vercel on one origin: the web project rewrites `/api/*` to the API. pnpm, Node 22. Scripts live in each `package.json`; that file is authoritative.
 
@@ -48,6 +48,7 @@ Read the story's R-IDs in REQUIREMENTS and the DESIGN sections the story names *
 **Folders** (DESIGN §3.2): `src/modules/<domain>/` with `*.routes.ts`, `*.controller.ts` (HTTP only), `*.service.ts` (business rules), `*.test.ts` · `src/middleware/` · `src/policies/` · `src/schemas/` (authoritative zod) · `src/models/` (Mongoose) · `src/services/{storage,email,google}` (interface + adapters) · `src/docs/` OpenAPI registry · `tests/integration/` · `api/index.ts` Vercel entry.
 
 **Conventions**
+
 - The middleware order is fixed (DESIGN §6.1): helmet → cookies → json → logging → `csrfGuard` → `rateLimit` → `authenticate` → `authorize(policy)` → `validate(schema)` → controller → `errorHandler`. A new route plugs into it in that order.
 - Controllers translate HTTP and nothing more. Rules and permission-dependent shaping live in services and serializers. Drop role-restricted fields in the serializer (e.g. `ApplicationDTO` without contact details for mentors).
 - Derived values (attendance rate, current week, "new since last visit") are computed on read, never stored (DESIGN §8).
