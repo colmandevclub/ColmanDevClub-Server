@@ -54,5 +54,5 @@ Read the story's R-IDs in REQUIREMENTS and the DESIGN sections the story names *
 - Derived values (attendance rate, current week, "new since last visit") are computed on read, never stored (DESIGN §8).
 - Every policy gets table-driven tests against the permission table in REQUIREMENTS §3. Every endpoint gets supertest integration tests on `mongodb-memory-server`, named by R-ID.
 - External services go through their interface (`StorageService`, `EmailService`). Local dev uses the filesystem and console adapters.
-- A new route registers its request/response schemas, policy and R-IDs in `src/docs/` (T-23). Reviewers check this until S-0.12 adds the CI check that enforces it.
+- Definition of Done for every later API story: register each added/changed route's authoritative request/response schemas, errors, auth cookie, policy and R-IDs in `src/docs/` using `registerApiRoute` (T-23, T-12). `pnpm docs:check` must pass; CI rejects unregistered routes.
 - Sample data for a new feature goes into the seed script (`pnpm seed`).

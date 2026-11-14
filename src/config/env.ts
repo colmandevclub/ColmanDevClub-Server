@@ -3,6 +3,7 @@ import { z } from 'zod'
 export const envSchema = z
   .object({
     NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+    VERCEL_ENV: z.enum(['development', 'preview', 'production']).optional(),
     PORT: z.coerce.number().int().min(1).max(65535).default(3000),
     APP_ORIGIN: z
       .string()
