@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   ci:
-    name: install → lint → prettier → test → build
+    name: install → lint → prettier → OpenAPI → test → build
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -31,6 +31,10 @@ jobs:
         run: pnpm lint
       - name: Prettier
         run: pnpm format:check
+      - name: OpenAPI route coverage (T-23)
+        run: pnpm docs:check
+        env:
+          NODE_ENV: test
       - name: Test
         run: pnpm test # vitest + supertest + mongodb-memory-server (no real DB needed)
         env:
