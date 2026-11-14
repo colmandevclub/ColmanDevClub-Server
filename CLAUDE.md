@@ -17,11 +17,11 @@ Both deploy to Vercel on one origin: the web project rewrites `/api/*` to the AP
 
 The specs live in the web repo under `docs/specs/` (from the API repo, clone both side by side and read `../ColmanDevClub-New-Website/docs/specs/`):
 
-- `REQUIREMENTS.md`: **what** and why. Requirement IDs `R-xx.y` (EARS criteria), decisions `Dxx`.
-- `DESIGN.md`: **how**. Technical decisions `T-xx`, routes, endpoints, data model, policies, open items `O-x`.
-- `TASKS.md`: epics `E#` and stories `S-#.#`, each traced to R/T IDs, with acceptance criteria.
+- One folder per epic (`e0-foundations/` … `e8-quality-launch/`), each with `requirements.md` (**what** and why: `R-xx.y` EARS criteria), `design.md` (**how**: the epic's DESIGN sections and its §6.2 endpoints) and `tasks.md` (its stories `S-#.#`, traced to R/T IDs, with acceptance criteria).
+- `core/` holds what every feature follows: `core/requirements.md` (decisions `Dxx`, roles and the permission table §3, R-12, UX R-33–R-38, non-functional R-41–R-44) and `core/design.md` (architecture, technical decisions `T-xx`, routes, API conventions, authorization, data model §8, email, security, testing, CI/CD, open items `O-x`).
+- `README.md` says where every ID and § lives and holds the planning summary and traceability; `CHANGELOG.md` holds the history.
 
-Read the story's R-IDs in REQUIREMENTS and the DESIGN sections the story names **before writing code**. When code and spec disagree, the spec wins. If the spec is wrong or silent, fix the spec in the same PR (see Workflow). How the method works, a full worked example, and templates: `docs/sdd/` in the web repo.
+"REQUIREMENTS", "DESIGN" and "TASKS" below mean the matching files of the spec set; § numbers and IDs are the same as before the split. Read the story's R-IDs and the DESIGN sections the story names **before writing code**. When code and spec disagree, the spec wins. If the spec is wrong or silent, fix the spec in the same PR (see Workflow). How the method works, a full worked example, and templates: `docs/sdd/` in the web repo.
 
 ## Hard rules
 
@@ -38,7 +38,7 @@ Read the story's R-IDs in REQUIREMENTS and the DESIGN sections the story names *
 2. **Branch** `KAN-<n>-<short-slug>` from `main`, e.g. `KAN-42-new-since-last-visit`.
 3. **Tests per acceptance criterion.** Every criterion gets a test whose name starts with its ID (`R-20.4 marks materials published after the last visit as new`), or an explicit "checked by hand" line in the PR.
 4. **IDs are stable.** Reference R/D/T/S IDs exactly. A removed ID is retired and never reused; new ones take the next free number.
-5. **Docs move with the code.** A change in scope, an endpoint, a model field or a decision updates REQUIREMENTS/DESIGN/TASKS (bump the doc's version and changelog row). The specs live in the web repo, so a web change updates them in the same PR, and an API change opens a paired web PR with the same Jira key and links the two.
+5. **Docs move with the code.** A change in scope, an endpoint, a model field or a decision updates the matching `requirements.md`/`design.md`/`tasks.md` of the owning epic, or `core/` (bump the version in `docs/specs/README.md` and add a row to `docs/specs/CHANGELOG.md`). The specs live in the web repo, so a web change updates them in the same PR, and an API change opens a paired web PR with the same Jira key and links the two.
 6. **PR** title starts with the Jira key; fill `.github/pull_request_template.md`. CI green + one lead approval (CODEOWNERS); then the author merges.
 
 <!-- shared-core:end -->
