@@ -1,6 +1,7 @@
 import express, { type Express, type Request, type Response, type Router } from 'express'
 import cookieParser from 'cookie-parser'
-import helmet from 'helmet'
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- Vercel's resolver requires explicit CommonJS interop for Helmet.
+import helmet = require('helmet')
 import './config/mongoose.js'
 import { csrfGuard } from './middleware/csrf.js'
 import { errorHandler, notFound } from './middleware/errorHandler.js'
@@ -12,7 +13,9 @@ export function createApp(apiRouter: Router = express.Router()): Express {
 
   // Trust only the nearest reverse proxy, which must overwrite forwarded headers.
   app.set('trust proxy', 1)
-  app.use(helmet({ strictTransportSecurity: { maxAge: 31536000, includeSubDomains: true } }))
+  app.use(
+    helmet.default({ strictTransportSecurity: { maxAge: 31536000, includeSubDomains: true } }),
+  )
   app.use(requestContext)
   app.use(requireHttps)
   app.use(cookieParser())
