@@ -38,7 +38,7 @@ Read the story's R-IDs in REQUIREMENTS and the DESIGN sections the story names *
 2. **Branch** `KAN-<n>-<short-slug>` from `main`, e.g. `KAN-42-new-since-last-visit`.
 3. **Tests per acceptance criterion.** Every criterion gets a test whose name starts with its ID (`R-20.4 marks materials published after the last visit as new`), or an explicit "checked by hand" line in the PR.
 4. **IDs are stable.** Reference R/D/T/S IDs exactly. A removed ID is retired and never reused; new ones take the next free number.
-5. **Docs move with the code.** A change in scope, an endpoint, a model field or a decision updates REQUIREMENTS/DESIGN/TASKS in the same PR (bump the doc's version and changelog row).
+5. **Docs move with the code.** A change in scope, an endpoint, a model field or a decision updates REQUIREMENTS/DESIGN/TASKS (bump the doc's version and changelog row). The specs live in the web repo, so a web change updates them in the same PR, and an API change opens a paired web PR with the same Jira key and links the two.
 6. **PR** title starts with the Jira key; fill `.github/pull_request_template.md`. CI green + one lead approval (CODEOWNERS); then the author merges.
 
 <!-- shared-core:end -->
@@ -54,5 +54,5 @@ Read the story's R-IDs in REQUIREMENTS and the DESIGN sections the story names *
 - Derived values (attendance rate, current week, "new since last visit") are computed on read, never stored (DESIGN §8).
 - Every policy gets table-driven tests against the permission table in REQUIREMENTS §3. Every endpoint gets supertest integration tests on `mongodb-memory-server`, named by R-ID.
 - External services go through their interface (`StorageService`, `EmailService`). Local dev uses the filesystem and console adapters.
-- A new route registers its request/response schemas, policy and R-IDs in `src/docs/`; CI fails otherwise (T-23).
+- A new route registers its request/response schemas, policy and R-IDs in `src/docs/` (T-23). Reviewers check this until S-0.12 adds the CI check that enforces it.
 - Sample data for a new feature goes into the seed script (`pnpm seed`).
