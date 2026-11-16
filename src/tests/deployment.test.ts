@@ -17,7 +17,11 @@ it('S-0.6 type-checks the API entrypoint with the Vercel module resolver', () =>
   host.resolveModuleNames = (names, containingFile) =>
     names.map((name) => ts.resolveModuleName(name, containingFile, options, ts.sys).resolvedModule)
 
-  const program = ts.createProgram([join(root, 'src/app.ts')], options, host)
+  const program = ts.createProgram(
+    [join(root, 'src/app.ts'), join(root, 'src/services/email/index.ts')],
+    options,
+    host,
+  )
   const diagnostics = ts.getPreEmitDiagnostics(program)
   const messages = ts.formatDiagnostics(diagnostics, {
     getCanonicalFileName: (file) => file,

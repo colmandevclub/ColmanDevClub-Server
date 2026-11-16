@@ -1,0 +1,70 @@
+{
+  "info": {
+    "name": "ColmanDevClub — Email sender test only",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Local template-sending test. Run pnpm dev:email and send from the Gmail account configured privately on the server. No registration, passwords, database or authentication tokens. This endpoint is absent from the production API. Body fields are template and optional to; omit to to send to the configured club mailbox. Template links are synthetic examples, not account actions. Never paste SMTP credentials into Postman."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:4180",
+      "type": "string"
+    },
+    {
+      "key": "template",
+      "value": "admission-accepted",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Send a sample template from the configured Gmail sender",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Origin",
+            "value": "{{baseUrl}}"
+          },
+          {
+            "key": "X-CDC-Request",
+            "value": "1"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"template\": \"{{template}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/__dev/send-test-email",
+        "description": "Add an optional to field containing an address you control. The default recipient is the club mailbox; no contact details or message bodies are logged."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Gmail accepted the message\", () => { pm.response.to.have.status(200); pm.expect(pm.response.json().status).to.eql(\"smtp_accepted\"); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Read redacted send status",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/__dev/email-status"
+      }
+    }
+  ]
+}

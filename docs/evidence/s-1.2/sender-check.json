@@ -1,0 +1,30 @@
+{
+  "performedAt": "2026-11-14T22:19:12.354Z",
+  "transport": "gmail-smtp",
+  "senderConfiguredFromPrivateEnvironment": true,
+  "smtpAcceptedMessages": 2,
+  "inboxDeliveryConfirmed": false,
+  "scope": "SMTP sender authentication and two accepted test messages only. Account workflows are outside S-1.2 and are not included in the implementation.",
+  "previousConnectionCheck": {
+    "date": "2026-11-15",
+    "result": "connection_timed_out",
+    "code": "ETIMEDOUT",
+    "stage": "CONN",
+    "newMessagesSent": 0
+  },
+  "latestConnectionCheck": {
+    "date": "2026-11-15",
+    "result": "authenticated",
+    "port": 587,
+    "tlsRequired": true
+  },
+  "latestLiveSendCheck": {
+    "performedAt": "2026-11-15T17:32:59.821Z",
+    "recipient": "configured club mailbox",
+    "smtpPort": 587,
+    "tlsRequired": true,
+    "smtpAcceptedMessages": 3,
+    "templates": ["registration-confirmation", "admission-accepted", "invite"],
+    "inboxDeliveryConfirmed": false
+  }
+}

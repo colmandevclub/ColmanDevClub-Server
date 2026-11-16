@@ -26,6 +26,9 @@ importers:
       mongoose:
         specifier: ^9.12.1
         version: 9.12.1
+      nodemailer:
+        specifier: ^10.5.0
+        version: 10.5.0
       swagger-ui-express:
         specifier: ^5.0.1
         version: 5.0.1(express@5.3.0)
@@ -1350,6 +1353,10 @@ packages:
   new-find-package-json@2.0.0:
     resolution: {integrity: sha512-lDcBsjBSMlj3LXH2v/FW3txlh2pYTjmbOXPYJD93HI5EwuLzI11tdHSIpUMmfq/IOsldj4Ps8M8flhm+pCK4Ew==}
     engines: {node: '>=12.22.0'}
+
+  nodemailer@10.5.0:
+    resolution: {integrity: sha512-L/w/HH5MqpzMDuZD7fQdt/+KqymuvrpaApaIjAH2XA3ILePwlcvXCVVvP75xVrXCEt2ggK2marrrHHFB5Qu0kA==}
+    engines: {node: '>=20.0.0'}
 
   object-inspect@1.13.4:
     resolution: {integrity: sha512-W67iLl4J2EXEGTbfeHCffrjDfitvLANg0UlX3wFUUSTx92KXRFegMHUVgSqE+wvhAbi4WqjGg9czysTV2Epbew==}
@@ -2932,6 +2939,8 @@ snapshots:
       debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
+
+  nodemailer@10.5.0: {}
 
   object-inspect@1.13.4: {}
 
