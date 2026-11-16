@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>בדיקת שולח המייל · מועדון הפיתוח</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #fafafb;
+        color: #1c1a22;
+        font:
+          16px/1.8 Arial,
+          sans-serif;
+      }
+      .page {
+        max-width: 800px;
+        margin: auto;
+        padding: 32px 24px;
+      }
+      .brand {
+        color: #5a4b94;
+        font-weight: 700;
+      }
+      header {
+        margin: 24px 0;
+        padding: 32px;
+        border-radius: 22px;
+        background: #2e2350;
+        color: #fff;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: 32px;
+        line-height: 1.25;
+      }
+      header p {
+        margin: 0;
+        color: #f1eef8;
+      }
+      .card {
+        background: #fff;
+        border: 1px solid #e7e5ec;
+        border-radius: 16px;
+        padding: 28px;
+        margin: 24px 0;
+      }
+      h2 {
+        margin: 0 0 12px;
+        font-size: 22px;
+      }
+      label {
+        display: block;
+        font-size: 14px;
+        font-weight: 700;
+        margin: 18px 0 6px;
+      }
+      input,
+      select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #c9c5d3;
+        border-radius: 10px;
+        background: #fff;
+        color: #1c1a22;
+        font:
+          16px Arial,
+          sans-serif;
+      }
+      button {
+        padding: 13px 22px;
+        border: 0;
+        border-radius: 10px;
+        background: #6b5ba8;
+        color: white;
+        font:
+          700 15px Arial,
+          sans-serif;
+        cursor: pointer;
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: wait;
+      }
+      form button {
+        width: 100%;
+        margin-block-start: 24px;
+      }
+      :focus-visible {
+        outline: 3px solid #5a4b94;
+        outline-offset: 3px;
+      }
+      .note {
+        background: #f1eef8;
+        color: #5a4b94;
+        padding: 16px;
+        border-radius: 12px;
+        font-size: 13px;
+      }
+      .muted {
+        font-size: 13px;
+        color: #5e5a6b;
+      }
+      .links {
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      a {
+        color: #5a4b94;
+        text-underline-offset: 4px;
+      }
+      .event {
+        padding: 12px 0;
+        border-block-end: 1px solid #e7e5ec;
+        font-size: 13px;
+      }
+      .event strong {
+        display: block;
+        color: #5a4b94;
+      }
+      pre {
+        background: #f4f3f6;
+        padding: 16px;
+        border-radius: 10px;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        text-align: start;
+        direction: ltr;
+        font-size: 13px;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      @media (max-width: 480px) {
+        .page {
+          padding: 20px 14px;
+        }
+        header,
+        .card {
+          padding: 24px;
+        }
+        h1 {
+          font-size: 28px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <div class="brand"><bdi>ColmanDevClub</bdi> · שירות המייל</div>
+      <header>
+        <h1>בוחרים תבנית.<br />שולחים מייל.</h1>
+        <p>השליחה מתבצעת מחשבון ה־Gmail שהוגדר בשרת.</p>
+      </header>
+      <nav class="links">
+        <a href="/postman/email.json" download>הורדת בקשת שליחה ל־Postman</a
+        ><a href="http://127.0.0.1:4175/" target="_blank" rel="noopener">תצוגת כל התבניות</a>
+      </nav>
+      <section class="card">
+        <h2>שליחת הודעת בדיקה</h2>
+        <div class="note">
+          המייל נשלח בפועל עם נתוני דוגמה. הקישורים בתוכו הם דוגמאות בלבד. הפעולה בודקת את שירות
+          המייל ואת זהות השולח.
+        </div>
+        <form id="send-form">
+          <label for="template">איזו תבנית לשלוח?</label>
+          <select id="template">
+            <option value="admission-accepted">התקבלת למועדון</option>
+            <option value="registration-confirmation">אישור קבלת טופס הרשמה</option>
+            <option value="verify-email">אימות מייל</option>
+            <option value="reset-password">איפוס סיסמה</option>
+            <option value="invite">הזמנה למועדון</option>
+          </select>
+          <label for="recipient">לאיזו כתובת לשלוח? (אפשר להשאיר ריק)</label
+          ><input
+            id="recipient"
+            type="email"
+            dir="ltr"
+            autocomplete="email"
+            placeholder="you@example.com"
+          />
+          <p class="muted">ריק = שליחה לתיבת המועדון שהוגדרה. השתמשו בכתובת שבשליטתכם.</p>
+          <button id="send" type="submit">שליחת מייל בדיקה</button>
+        </form>
+        <div id="result" aria-live="polite" hidden>
+          <h3 id="result-title"></h3>
+          <pre id="response"></pre>
+        </div>
+      </section>
+      <section class="card">
+        <h2>מצב השליחה</h2>
+        <p class="muted">
+          הסטטוס מציין אם שרת Gmail קיבל את ההודעה לשליחה. אפשר לבדוק בתיבת הדואר גם את שדה השולח
+          ואת תיקיית הספאם.
+        </p>
+        <div id="events" aria-live="polite">
+          <p class="muted">מוכנים לבדיקה — טרם נשלחה הודעה מהמסך הזה.</p>
+        </div>
+        <button id="refresh" type="button" style="margin-block-start: 20px">
+          רענון מצב השליחה
+        </button>
+      </section>
+    </main>
+    <script>
+      const form = document.getElementById('send-form')
+      const send = document.getElementById('send')
+      async function refresh() {
+        try {
+          const response = await fetch('/__dev/email-status')
+          if (!response.ok) throw new Error('Unavailable')
+          const state = await response.json()
+          const container = document.getElementById('events')
+          container.replaceChildren()
+          for (const event of state.events.slice().reverse()) {
+            const row = document.createElement('div')
+            row.className = 'event'
+            const title = document.createElement('strong')
+            title.textContent =
+              event.status === 'smtp_accepted'
+                ? 'Gmail אישר את ההודעה לשליחה'
+                : event.status === 'preview'
+                  ? 'תצוגת console בלבד — לא נשלח מייל'
+                  : 'ניסיון השליחה נכשל'
+            const detail = document.createElement('span')
+            detail.textContent = `${event.template} · ${new Date(event.at).toLocaleTimeString('he-IL')}`
+            row.append(title, detail)
+            container.append(row)
+          }
+          if (!state.events.length) {
+            const empty = document.createElement('p')
+            empty.className = 'muted'
+            empty.textContent = 'מוכנים לבדיקה — טרם נשלחה הודעה מהמסך הזה.'
+            container.append(empty)
+          }
+        } catch {
+          document.getElementById('events').textContent = 'לא ניתן לקבל את מצב השרת כרגע.'
+        }
+      }
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault()
+        send.disabled = true
+        const body = { template: document.getElementById('template').value }
+        const to = document.getElementById('recipient').value.trim()
+        if (to) body.to = to
+        try {
+          const response = await fetch('/__dev/send-test-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CDC-Request': '1' },
+            body: JSON.stringify(body),
+          })
+          const result = await response.json()
+          document.getElementById('result').hidden = false
+          document.getElementById('result-title').textContent =
+            result.status === 'smtp_accepted'
+              ? 'Gmail אישר את שליחת המייל'
+              : result.status === 'preview'
+                ? 'תצוגת פיתוח בלבד'
+                : 'השליחה לא הושלמה'
+          document.getElementById('response').textContent =
+            `HTTP ${response.status}\n${JSON.stringify(result, null, 2)}`
+        } catch {
+          document.getElementById('result').hidden = false
+          document.getElementById('result-title').textContent = 'לא ניתן להגיע לשרת'
+          document.getElementById('response').textContent = 'בדקו שהשרת המקומי פועל ונסו שוב.'
+        } finally {
+          send.disabled = false
+          await refresh()
+        }
+      })
+      document.getElementById('refresh').addEventListener('click', refresh)
+      refresh()
+    </script>
+  </body>
+</html>

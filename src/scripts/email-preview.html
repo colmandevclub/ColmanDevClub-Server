@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>המיילים של מועדון הפיתוח</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --page: #fafafb;
+        --surface: #ffffff;
+        --subtle: #f4f3f6;
+        --line: #e7e5ec;
+        --ink: #1c1a22;
+        --muted: #5e5a6b;
+        --accent: #6b5ba8;
+        --accent-ink: #5a4b94;
+        --tint: #f1eef8;
+        --band: #2e2350;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--page);
+        color: var(--ink);
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      button,
+      a {
+        -webkit-tap-highlight-color: transparent;
+      }
+      button {
+        font: inherit;
+        cursor: pointer;
+      }
+      button:focus-visible,
+      a:focus-visible {
+        outline: 3px solid var(--accent-ink);
+        outline-offset: 4px;
+      }
+      .page {
+        max-width: 1320px;
+        margin: auto;
+        padding: 28px 40px 64px;
+      }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding-block-end: 24px;
+        border-block-end: 1px solid var(--line);
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .brand-mark {
+        display: grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        background: var(--tint);
+        color: var(--accent-ink);
+        border: 1px solid var(--line);
+        border-radius: 11px;
+        font: 700 17px monospace;
+      }
+      .brand-name {
+        font-weight: 700;
+        font-size: 18px;
+        letter-spacing: -0.5px;
+      }
+      .brand-note {
+        margin-block-start: 4px;
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .preview-badge {
+        padding: 8px 12px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--surface);
+        color: var(--muted);
+        font-size: 11px;
+        white-space: nowrap;
+      }
+      .intro {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 24px;
+        margin-block: 34px 32px;
+      }
+      .eyebrow {
+        margin: 0 0 10px;
+        color: var(--accent-ink);
+        font-size: 12px;
+        font-weight: 700;
+      }
+      h1 {
+        margin: 0;
+        font-size: 38px;
+        line-height: 1.18;
+        letter-spacing: -1.2px;
+      }
+      .intro-description {
+        max-width: 285px;
+        margin: 0 0 3px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.8;
+      }
+      .layout {
+        display: grid;
+        grid-template-columns: 220px minmax(0, 1fr);
+        gap: 28px;
+        align-items: start;
+      }
+      .sidebar {
+        position: sticky;
+        inset-block-start: 24px;
+      }
+      .section-label {
+        margin: 0 0 12px;
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .template-list {
+        display: grid;
+        gap: 6px;
+      }
+      .template {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        width: 100%;
+        padding: 15px 14px;
+        border: 1px solid transparent;
+        border-radius: 12px;
+        background: transparent;
+        color: var(--muted);
+        text-align: start;
+      }
+      .template:hover {
+        background: var(--subtle);
+      }
+      .template[aria-pressed='true'] {
+        background: var(--tint);
+        border-color: var(--line);
+        color: var(--accent-ink);
+      }
+      .template-number {
+        font: 12px/1 monospace;
+        opacity: 0.75;
+      }
+      .template-title {
+        display: block;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .template-description {
+        display: block;
+        margin-block-start: 5px;
+        font-size: 11px;
+        line-height: 1.5;
+      }
+      .palette {
+        display: flex;
+        gap: 6px;
+        margin-block: 28px 12px;
+        padding-block-start: 24px;
+        border-block-start: 1px solid var(--line);
+      }
+      .swatch {
+        width: 24px;
+        height: 24px;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+      }
+      .palette-note {
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.8;
+      }
+      .workspace {
+        min-width: 0;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        overflow: hidden;
+        background: var(--surface);
+      }
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 14px 18px;
+        border-block-end: 1px solid var(--line);
+      }
+      .segmented {
+        display: flex;
+        gap: 3px;
+        padding: 3px;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        background: var(--page);
+      }
+      .segmented button {
+        border: 0;
+        border-radius: 6px;
+        padding: 7px 12px;
+        background: transparent;
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .segmented button[aria-pressed='true'] {
+        background: var(--surface);
+        color: var(--accent-ink);
+        box-shadow: 0 1px 4px #2e235014;
+        font-weight: 700;
+      }
+      .open-link {
+        color: var(--accent-ink);
+        font-size: 11px;
+        text-underline-offset: 4px;
+      }
+      .mail-meta {
+        padding: 19px 24px;
+        border-block-end: 1px solid var(--line);
+      }
+      .mail-meta p {
+        margin: 0;
+      }
+      .mail-meta .sender {
+        color: var(--muted);
+        font-size: 11px;
+        margin-block-end: 7px;
+      }
+      .mail-meta .subject {
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 1.6;
+      }
+      .stage {
+        display: grid;
+        justify-items: center;
+        padding: 8px 12px 20px;
+        background-color: var(--subtle);
+        background-image: radial-gradient(#c9c5d3 0.6px, transparent 0.6px);
+        background-size: 16px 16px;
+      }
+      iframe {
+        display: block;
+        width: 600px;
+        max-width: 100%;
+        height: 1100px;
+        border: 0;
+        background: var(--page);
+      }
+      pre {
+        width: 100%;
+        max-width: 600px;
+        margin: 24px 0;
+        padding: 28px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: var(--surface);
+        color: var(--ink);
+        font:
+          14px/1.9 Arial,
+          Helvetica,
+          sans-serif;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      .footnote {
+        margin: 16px 0 0;
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.8;
+        text-align: center;
+      }
+      @media (max-width: 900px) {
+        .page {
+          padding: 24px 20px 40px;
+        }
+        .layout {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 22px;
+        }
+        .sidebar {
+          position: static;
+          min-width: 0;
+        }
+        .template-list {
+          display: flex;
+          gap: 6px;
+          overflow-x: auto;
+          padding: 4px;
+        }
+        .template {
+          width: auto;
+          min-width: 144px;
+          padding: 12px;
+        }
+        .template-description,
+        .palette,
+        .palette-note {
+          display: none;
+        }
+        .section-label {
+          margin-block-end: 6px;
+        }
+      }
+      @media (max-width: 480px) {
+        .page {
+          padding: 20px 12px 32px;
+        }
+        .preview-badge {
+          font-size: 10px;
+          padding: 7px 9px;
+        }
+        .brand-name {
+          font-size: 15px;
+        }
+        .brand-mark {
+          width: 32px;
+          height: 32px;
+          font-size: 14px;
+        }
+        .brand {
+          gap: 8px;
+        }
+        .brand-note {
+          font-size: 10px;
+        }
+        .intro {
+          display: block;
+          margin-block: 26px 22px;
+        }
+        h1 {
+          font-size: 32px;
+        }
+        .intro-description {
+          margin-block-start: 14px;
+        }
+        .toolbar {
+          padding: 12px;
+        }
+        .segmented button {
+          padding: 7px 9px;
+        }
+        .stage {
+          padding: 0;
+        }
+        .mail-meta {
+          padding: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark" dir="ltr" aria-hidden="true">&lt;/&gt;</span>
+          <div>
+            <div class="brand-name"><bdi>ColmanDevClub</bdi></div>
+            <div class="brand-note">מועדון הפיתוח · המכללה למינהל</div>
+          </div>
+        </div>
+        <span class="preview-badge">תצוגה מקומית · נתוני דוגמה</span>
+      </header>
+      <section class="intro" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">ההודעות שלנו</p>
+          <h1 id="page-title">אותו מועדון.<br />גם בתיבת המייל.</h1>
+        </div>
+        <p class="intro-description">
+          כל הודעה היא חלק מהחוויה.<br />בחרו תבנית וגלו איך היא נראית במחשב ובמובייל.
+        </p>
+      </section>
+      <main class="layout">
+        <aside class="sidebar" aria-label="בחירת תבנית">
+          <p class="section-label">התבניות / <bdi>06</bdi></p>
+          <div class="template-list">
+            <button
+              class="template"
+              type="button"
+              data-file="registration-confirmation"
+              data-subject="קיבלנו את ההרשמה שלך למועדון הפיתוח"
+              aria-pressed="true"
+            >
+              <span class="template-number" dir="ltr">01</span
+              ><span
+                ><span class="template-title">אישור הרשמה</span
+                ><span class="template-description">הצעד הראשון למועדון</span></span
+              >
+            </button>
+            <button
+              class="template"
+              type="button"
+              data-file="admission-accepted"
+              data-subject="התקבלת למועדון הפיתוח — ברוכים הבאים!"
+              aria-pressed="false"
+            >
+              <span class="template-number" dir="ltr">02</span
+              ><span
+                ><span class="template-title">התקבלת למועדון</span
+                ><span class="template-description">עברת את המיונים בהצלחה</span></span
+              >
+            </button>
+            <button
+              class="template"
+              type="button"
+              data-file="verify-email"
+              data-subject="אימות כתובת המייל שלך במועדון הפיתוח"
+              aria-pressed="false"
+            >
+              <span class="template-number" dir="ltr">03</span
+              ><span
+                ><span class="template-title">אימות מייל</span
+                ><span class="template-description">עוד צעד קטן, ואפשר להתחיל</span></span
+              >
+            </button>
+            <button
+              class="template"
+              type="button"
+              data-file="reset-password"
+              data-subject="איפוס הסיסמה שלך במועדון הפיתוח"
+              aria-pressed="false"
+            >
+              <span class="template-number" dir="ltr">04</span
+              ><span
+                ><span class="template-title">איפוס סיסמה</span
+                ><span class="template-description">חוזרים לעניינים, בבטחה</span></span
+              >
+            </button>
+            <button
+              class="template"
+              type="button"
+              data-file="invite"
+              data-subject="הזמנה להצטרף למועדון הפיתוח"
+              aria-pressed="false"
+            >
+              <span class="template-number" dir="ltr">05</span
+              ><span
+                ><span class="template-title">הזמנה למועדון</span
+                ><span class="template-description">יש לך מקום לבנות איתנו</span></span
+              >
+            </button>
+            <button
+              class="template"
+              type="button"
+              data-file="registration-confirmation-waitlisted"
+              data-subject="קיבלנו את ההרשמה שלך למועדון הפיתוח"
+              aria-pressed="false"
+            >
+              <span class="template-number" dir="ltr">06</span
+              ><span
+                ><span class="template-title">רשימת המתנה</span
+                ><span class="template-description">ההרשמה נשמרה במערכת</span></span
+              >
+            </button>
+          </div>
+          <div class="palette" aria-hidden="true">
+            <span class="swatch" style="background: #2e2350"></span
+            ><span class="swatch" style="background: #6b5ba8"></span
+            ><span class="swatch" style="background: #f1eef8"></span
+            ><span class="swatch" style="background: #ffffff"></span>
+          </div>
+          <p class="palette-note">אותה פלטה. אותה שפה.<br />הצבעים של האתר, עד לפרט האחרון.</p>
+        </aside>
+        <div>
+          <section class="workspace" aria-label="תצוגת המייל">
+            <div class="toolbar">
+              <div class="segmented" role="group" aria-label="גודל תצוגה">
+                <button type="button" data-width="600" aria-pressed="true">מחשב</button
+                ><button type="button" data-width="320" aria-pressed="false">מובייל</button>
+              </div>
+              <div class="segmented" role="group" aria-label="סוג תצוגה">
+                <button type="button" data-view="html" aria-pressed="true">מעוצב</button
+                ><button type="button" data-view="text" aria-pressed="false">טקסט רגיל</button>
+              </div>
+              <a
+                class="open-link"
+                id="open-email"
+                href="registration-confirmation.html"
+                target="_blank"
+                rel="noopener"
+                >פתיחת המייל ↗</a
+              >
+            </div>
+            <div class="mail-meta">
+              <p class="sender">מאת: <bdi>ColmanDevClub</bdi> · מועדון הפיתוח</p>
+              <p class="subject" id="email-subject" aria-live="polite">
+                קיבלנו את ההרשמה שלך למועדון הפיתוח
+              </p>
+            </div>
+            <div class="stage">
+              <iframe
+                id="email-frame"
+                title="מייל אישור הרשמה"
+                src="registration-confirmation.html"
+              ></iframe>
+              <pre id="email-text" hidden></pre>
+            </div>
+          </section>
+          <p class="footnote">
+            תצוגה עם נתוני דוגמה בלבד. הקישורים במייל אינם מפעילים פעולות אמיתיות.
+          </p>
+        </div>
+      </main>
+    </div>
+    <script>
+      const frame = document.getElementById('email-frame')
+      const text = document.getElementById('email-text')
+      const subject = document.getElementById('email-subject')
+      const openLink = document.getElementById('open-email')
+      let currentFile = 'registration-confirmation'
+      let currentView = 'html'
+      let resizeObserver
+
+      function fitFrame() {
+        const body = frame.contentDocument?.body
+        if (body) frame.style.height = `${Math.ceil(body.getBoundingClientRect().height)}px`
+      }
+
+      frame.addEventListener('load', () => {
+        resizeObserver?.disconnect()
+        fitFrame()
+        if (frame.contentDocument?.body) {
+          resizeObserver = new ResizeObserver(fitFrame)
+          resizeObserver.observe(frame.contentDocument.body)
+        }
+      })
+
+      async function showText() {
+        const file = currentFile
+        text.textContent = 'טוען את ההודעה…'
+        try {
+          const response = await fetch(`${file}.txt`)
+          if (!response.ok) throw new Error('Preview unavailable')
+          const content = await response.text()
+          if (file === currentFile) text.textContent = content
+        } catch {
+          if (file === currentFile)
+            text.textContent = 'לא ניתן לטעון את התצוגה. אפשר לרענן ולנסות שוב.'
+        }
+      }
+
+      document.querySelectorAll('[data-file]').forEach((button) => {
+        button.addEventListener('click', () => {
+          document
+            .querySelectorAll('[data-file]')
+            .forEach((item) => item.setAttribute('aria-pressed', String(item === button)))
+          currentFile = button.dataset.file
+          subject.textContent = button.dataset.subject
+          frame.title = `מייל ${button.querySelector('.template-title').textContent}`
+          frame.src = `${currentFile}.html`
+          openLink.href = `${currentFile}.html`
+          if (currentView === 'text') showText()
+        })
+      })
+
+      document.querySelectorAll('[data-width]').forEach((button) => {
+        button.addEventListener('click', () => {
+          document
+            .querySelectorAll('[data-width]')
+            .forEach((item) => item.setAttribute('aria-pressed', String(item === button)))
+          frame.style.width = `${button.dataset.width}px`
+          text.style.maxWidth = `${button.dataset.width}px`
+        })
+      })
+
+      document.querySelectorAll('[data-view]').forEach((button) => {
+        button.addEventListener('click', () => {
+          document
+            .querySelectorAll('[data-view]')
+            .forEach((item) => item.setAttribute('aria-pressed', String(item === button)))
+          currentView = button.dataset.view
+          frame.hidden = currentView !== 'html'
+          text.hidden = currentView !== 'text'
+          if (currentView === 'text') showText()
+          else fitFrame()
+        })
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "template": "admission-accepted",
+  "desktop": {
+    "direction": "rtl",
+    "scrollWidth": 651,
+    "width": 651
+  },
+  "mobile": {
+    "direction": "rtl",
+    "scrollWidth": 320,
+    "width": 320
+  }
+}

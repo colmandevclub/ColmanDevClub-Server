@@ -1,0 +1,47 @@
+[
+  {
+    "file": "registration-confirmation",
+    "headline": "ההרשמה שלך\nנקלטה.",
+    "action": "הגדרת סיסמה  ←",
+    "direction": "rtl",
+    "documentWidth": 305,
+    "viewport": 320,
+    "overflow": false
+  },
+  {
+    "file": "reset-password",
+    "headline": "חוזרים\nלעניינים.",
+    "action": "איפוס סיסמה  ←",
+    "direction": "rtl",
+    "documentWidth": 305,
+    "viewport": 320,
+    "overflow": false
+  },
+  {
+    "file": "invite",
+    "headline": "יש לך מקום\nלבנות איתנו.",
+    "action": "קבלת ההזמנה  ←",
+    "direction": "rtl",
+    "documentWidth": 305,
+    "viewport": 320,
+    "overflow": false
+  },
+  {
+    "file": "registration-confirmation-waitlisted",
+    "headline": "ההרשמה שלך\nנקלטה.",
+    "action": "הגדרת סיסמה  ←",
+    "direction": "rtl",
+    "documentWidth": 305,
+    "viewport": 320,
+    "overflow": false
+  },
+  {
+    "file": "verify-email",
+    "headline": "כמעט שם.\nנשאר רק לאמת.",
+    "action": "אימות כתובת המייל  ←",
+    "direction": "rtl",
+    "documentWidth": 305,
+    "viewport": 320,
+    "overflow": false
+  }
+]

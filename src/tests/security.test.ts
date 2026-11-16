@@ -403,7 +403,12 @@ describe('R-44.1 configured site origin', () => {
   })
 
   it('R-44.1 normalizes configured origins for exact browser Origin comparison', () => {
-    const result = envSchema.parse({ NODE_ENV: 'production', APP_ORIGIN: 'https://Club.example/' })
+    const result = envSchema.parse({
+      NODE_ENV: 'production',
+      APP_ORIGIN: 'https://Club.example/',
+      GMAIL_USER: 'club@example.com',
+      GMAIL_APP_PASSWORD: 'abcdefghijklmnop',
+    })
     expect(result.APP_ORIGIN).toBe('https://club.example')
   })
 })
