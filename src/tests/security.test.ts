@@ -403,7 +403,11 @@ describe('R-44.1 configured site origin', () => {
   })
 
   it('R-44.1 normalizes configured origins for exact browser Origin comparison', () => {
-    const result = envSchema.parse({ NODE_ENV: 'production', APP_ORIGIN: 'https://Club.example/' })
+    const result = envSchema.parse({
+      NODE_ENV: 'production',
+      APP_ORIGIN: 'https://Club.example/',
+      MONGO_URI: 'mongodb://localhost:27017/colman-devclub-prod',
+    })
     expect(result.APP_ORIGIN).toBe('https://club.example')
   })
 })

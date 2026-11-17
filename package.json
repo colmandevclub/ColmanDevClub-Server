@@ -12,7 +12,9 @@
     "format:check": "prettier --check .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "docs:check": "vitest run src/tests/openapiCoverage.test.ts"
+    "docs:check": "vitest run src/tests/openapiCoverage.test.ts",
+    "mongo:probe": "tsx --env-file=.env src/scripts/mongoProbe.ts",
+    "mongo:probe:keep": "tsx --env-file=.env src/scripts/mongoProbe.ts --keep"
   },
   "keywords": [],
   "author": "",
