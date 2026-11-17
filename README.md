@@ -80,6 +80,24 @@ standard 404 envelope. Documentation responses use `Cache-Control: no-store`.
    Express's implicit HEAD/OPTIONS behavior needs no separate registration.
    Only the reserved `/api/docs` subtree is excluded.
 
+### MongoDB runtime runbook
+
+The API keeps a single shared Mongoose connection per Node process using a
+`globalThis` cache; concurrent requests reuse the same promise and the cache is
+reset on a failed connection so the next request can retry cleanly. The pool is
+bounded at `maxPoolSize: 5` and connection logs never print the URI, only the
+runtime environment and database role.
+
+Use a different database name for each deployment tier:
+
+- `development`: `dev_club`
+- `test`: `colman-devclub-test`
+- `production`: `colman-devclub-prod`
+
+Set `MONGO_URI` in the deployment environment for the active tier. Do not
+reuse a production database for local or preview instances, and never log the
+URI value or its credentials.
+
 ### Definition of Done for all later API stories
 
 - Every added or changed route registers its request/response schemas, errors,

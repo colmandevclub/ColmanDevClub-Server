@@ -25,11 +25,16 @@ export const envSchema = z
       }, 'APP_ORIGIN must be an HTTPS origin without credentials, a path, query or fragment')
       .transform((value) => new URL(value).origin)
       .optional(),
-    MONGODB_URI: z.string().url().optional(), //TODO: Make this required once you connect a real DB
+    MONGO_URI: z.string().url().optional(),
   })
   .superRefine((value, ctx) => {
-    if (value.NODE_ENV === 'production' && !value.APP_ORIGIN) {
-      ctx.addIssue({ code: 'custom', path: ['APP_ORIGIN'], message: 'APP_ORIGIN is required' })
+    if (value.NODE_ENV === 'production') {
+      if (!value.APP_ORIGIN) {
+        ctx.addIssue({ code: 'custom', path: ['APP_ORIGIN'], message: 'APP_ORIGIN is required' })
+      }
+      if (!value.MONGO_URI) {
+        ctx.addIssue({ code: 'custom', path: ['MONGO_URI'], message: 'MONGO_URI is required' })
+      }
     }
   })
 
