@@ -535,9 +535,27 @@ describe('T-22 validated adapter configuration', () => {
     [{ NODE_ENV: 'test' }, 'test'],
     [{ NODE_ENV: 'production', VERCEL_ENV: 'preview', APP_ORIGIN: origin }, 'console'],
     [{ NODE_ENV: 'production', APP_ORIGIN: origin, ...gmail }, 'gmail'],
-    [{ VERCEL_ENV: 'production', ...gmail }, 'gmail'],
+    [{ VERCEL_ENV: 'production', APP_ORIGIN: origin, ...gmail }, 'gmail'],
   ])('T-22 selects a safe default adapter for %j', (input, adapter) => {
     expect(envSchema.parse(input).EMAIL_ADAPTER).toBe(adapter)
+  })
+
+  it.each([
+    { NODE_ENV: 'production' },
+    { NODE_ENV: 'production', VERCEL_ENV: 'preview' },
+    { VERCEL_ENV: 'production' },
+    { NODE_ENV: 'development', VERCEL_ENV: 'production' },
+    { NODE_ENV: 'test', VERCEL_ENV: 'production' },
+  ])('T-22 requires APP_ORIGIN for production signals: %j', (signals) => {
+    const input = { ...signals, ...gmail }
+    const result = envSchema.safeParse(input)
+    expect(result.success).toBe(false)
+    if (!result.success) {
+      expect(result.error.issues).toEqual([
+        expect.objectContaining({ path: ['APP_ORIGIN'], message: 'APP_ORIGIN is required' }),
+      ])
+    }
+    expect(envSchema.safeParse({ ...input, APP_ORIGIN: origin }).success).toBe(true)
   })
 
   it('T-22 normalizes the Gmail app password without exposing it', () => {

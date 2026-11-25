@@ -46,7 +46,10 @@ export const envSchema = z
           : ('console' as const)),
   }))
   .superRefine((value, ctx) => {
-    if (value.NODE_ENV === 'production' && !value.APP_ORIGIN) {
+    if (
+      (value.NODE_ENV === 'production' || value.VERCEL_ENV === 'production') &&
+      !value.APP_ORIGIN
+    ) {
       ctx.addIssue({ code: 'custom', path: ['APP_ORIGIN'], message: 'APP_ORIGIN is required' })
     }
     const production =
